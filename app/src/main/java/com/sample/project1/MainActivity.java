@@ -38,9 +38,12 @@ public class MainActivity extends AppCompatActivity {
         add = findViewById(R.id.add);
         sharedPreferences = getSharedPreferences(mypreference , Context.MODE_PRIVATE);
 
-        nameSet = new HashSet<>();
-        phoneSet = new HashSet<>();
+        if(nameSet == null){
 
+            nameSet = new HashSet<>();
+            phoneSet = new HashSet<>();
+
+        }
         emergency.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
         final EditText editText2 = (EditText) promptView.findViewById(R.id.edittext2);
         // setup a dialog window
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         String str1 = editText.getText().toString() ;
                         String str2 = editText2.getText().toString() ;
@@ -85,9 +87,12 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this , "Enter Correct Phone Number", Toast.LENGTH_SHORT).show();
                         }
                         else {
+                            editor.clear();
+                            nameSet = sharedPreferences.getStringSet(Name , new HashSet<String>());
                             nameSet.add(str1 );
-                            editor.putStringSet(Name , nameSet);
+                            phoneSet = sharedPreferences.getStringSet(Phone ,new HashSet<String>());
                             phoneSet.add(str2);
+                            editor.putStringSet(Name , nameSet);
                             editor.putStringSet(Phone , phoneSet);
                             editor.apply();
                             Toast.makeText(MainActivity.this, " Contact Saved", Toast.LENGTH_SHORT).show();
