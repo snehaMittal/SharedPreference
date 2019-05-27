@@ -37,19 +37,30 @@ public class EmergencyActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(mypreference , Context.MODE_PRIVATE);
         set = new HashSet<>();
         set = sharedPreferences.getStringSet(Name , null);
-        array = new String[set.size()];
+        if (set == null) {
+            array = new String[1];
+        }
+        else
+            array = new String[set.size()];
         set2 = new HashSet<>();
         set2 = sharedPreferences.getStringSet(Phone , null);
-        phone = new String[set2.size()];
+        if (set2 == null)
+            phone = new String[1];
+        else
+            phone = new String[set2.size()];
         int k=0;
-        for (String i : set){
-            array[k] = i;
-            k++;
+        if (set != null){
+            for (String i : set){
+                array[k] = i;
+                k++;
+            }
         }
         int l=0 ;
-        for (String i : set2){
-            phone[l] = i;
-            l++;
+        if (set2 != null){
+            for (String i : set2){
+                phone[l] = i;
+                l++;
+            }
         }
         listView = findViewById(R.id.listView);
 
